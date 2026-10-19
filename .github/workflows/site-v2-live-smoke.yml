@@ -1,0 +1,31 @@
+name: Verify official Astro Pages site
+
+on:
+  push:
+    branches:
+      - refactor/research-website-v2
+    paths:
+      - '.github/workflows/site-v2-live-smoke.yml'
+      - 'site-v2/scripts/verify-production.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-live:
+    if: github.repository == 'Yaya195/yaya-etiabi.github.io'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check actual public HTTP responses
+        run: python3 site-v2/scripts/verify-production.py
+      - name: Upload live check report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v2-live-site-check
+          path: reports/release-live-smoke.json
+          if-no-files-found: warn
+          retention-days: 7
