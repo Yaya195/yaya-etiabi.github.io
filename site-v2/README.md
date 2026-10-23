@@ -1,8 +1,8 @@
 # Research Website V2 — Astro
 
-This is the new static research website for Yaya Etiabi, developed **alongside** the existing Jekyll production site.
+This is the Astro research website for Yaya Etiabi, published from the official `yaya-etiabi/yaya-etiabi.github.io` repository with GitHub Pages Actions.
 
-**Status:** implementation branch / review. The official website is still published from `yaya-etiabi/yaya-etiabi.github.io` and has not been replaced.
+Changes should be validated in a feature branch and reviewed before being merged into the official `master` branch.
 
 ## Requirements
 
@@ -50,7 +50,7 @@ Most content is plain Markdown plus YAML frontmatter. No backend database or run
 
 ## Deployment safety
 
-The CI workflow at `../.github/workflows/site-v2-ci.yml` deliberately **does not deploy**. It checks two static builds. The release-ready `../.github/workflows/jekyll.yml` builds Astro but deploys only when this branch has been explicitly merged into `master` in the canonical organization repository. See `../docs/v2/PRODUCTION_RELEASE_CHECKLIST.md` for the release and rollback plan.
+The fork's `../.github/workflows/site-v2-ci.yml` deliberately **does not deploy**: it checks root-domain and subpath builds. The official `../.github/workflows/jekyll.yml` builds and deploys Astro only on `master` in the canonical organization repository. See `../docs/v2/PRODUCTION_RELEASE_CHECKLIST.md` for the release and rollback plan.
 
 ## Current limitations
 
@@ -58,9 +58,15 @@ The CI workflow at `../.github/workflows/site-v2-ci.yml` deliberately **does not
 - Research-in-progress pages intentionally have no invented code links or accepted-paper claims.
 - No PDF CV is published. Historical CV and résumé routes lead to About.
 - A profile portrait and selected historical photos are included; Contact deliberately directs visitors to professional profiles.
-- A dependency lockfile still needs to be generated from a real npm ci and committed prior to production release.
+- The committed `package-lock.json` is used by npm ci in preview and deployment workflows.
 
 See `../docs/v2/` for the migration plan.
+
+## Blog editorial workflow
+
+Write new articles as Markdown in `src/content/blog/`. Include a precise title, one-sentence summary, accurate `publishedAt` date, and category (`Machine learning` or `Research practice`). An `order` number is optional for articles with the same date. Supply `legacySlug` **only** when updating an older Jekyll blog post; it generates a noindex HTML redirect from `/posts/<legacySlug>/` to the revised `/blog/<slug>/` article.
+
+Posts are editorial essays, not peer-reviewed publications. Do not reuse old posts without a substantive accuracy review, and do not assign a historical publication date unless it can be verified. The retained Jekyll `_posts/` files are archival source material, not the contents of the new blog. The initial release selectively revises three earlier subjects; other old URLs are not silently redirected to unrelated pages.
 
 ## Preview deployment note
 
