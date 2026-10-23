@@ -11,12 +11,16 @@ const check = (condition, message) => { if (!condition) failures.push(message); 
 const html = file => readFileSync(join(root, file), 'utf8');
 const routes = [
   '/', '/research/', '/projects/', '/publications/',
-  '/teaching-outreach/', '/talks/', '/about/', '/contact/',
+  '/teaching-outreach/', '/talks/', '/blog/', '/about/', '/contact/',
 ];
 const projects = readdirSync(join(root, 'projects'), { withFileTypes: true })
   .filter(entry => entry.isDirectory())
   .map(entry => '/projects/' + entry.name + '/');
-const urls = [...routes, ...projects];
+const articles = readdirSync(join(root, 'blog'), { withFileTypes: true })
+  .filter(entry => entry.isDirectory())
+  .map(entry => '/blog/' + entry.name + '/');
+const urls = [...routes, ...projects, ...articles];
+check(articles.length > 0, 'Blog must have at least one article');
 
 check(existsSync(join(root, 'sitemap.xml')), 'Missing sitemap.xml');
 check(existsSync(join(root, 'robots.txt')), 'Missing robots.txt');
@@ -60,6 +64,14 @@ for (const route of urls) {
         check(items.length === 11, 'Expected 11 publication records in structured data');
         check(items.filter(x => x.item?.version === 'Preprint').length === 1, 'Preprint needs explicit distinction');
       }
+      if (route === '/blog/') {
+        check(schema['@type'] === 'CollectionPage', 'Missing Blog CollectionPage');
+        check(schema.mainEntity?.itemListElement?.length === articles.length, 'Blog collection JSON-LD mismatch');
+      }
+      if (articles.includes(route)) {
+        check(schema['@type'] === 'BlogPosting', 'Missing BlogPosting schema at ' + route);
+        check(schema.datePublished && schema.headline && schema.author?.name === 'Yaya Etiabi', 'Incomplete blog article structured data at ' + route);
+      }
       if (route === '/') {
         check(schema['@graph']?.some(x => x['@type'] === 'WebSite'), 'Missing WebSite');
         check(schema['@graph']?.some(x => x['@type'] === 'Person'), 'Missing Person');
@@ -71,6 +83,17 @@ for (const route of urls) {
 }
 if (existsSync(join(root, '404.html'))) {
   check(/noindex/.test(html('404.html')), '404 must not be indexable');
+}
+const legacyPosts = [
+  'reading-research-papers', 'first-research-paper', 'exploring-ml-research',
+];
+for (const slug of legacyPosts) {
+  const path = 'posts/' + slug + '/index.html';
+  check(existsSync(join(root, path)), 'Missing migrated post redirect: ' + path);
+  if (existsSync(join(root, path))) {
+    check(/noindex/.test(html(path)), 'Migrated post redirect must be noindex: ' + path);
+    check(/http-equiv="refresh"/.test(html(path)), 'Migrated post redirect missing refresh: ' + path);
+  }
 }
 for (const path of ['cv/index.html', 'resume/index.html', 'portfolio/index.html']) {
   check(/noindex/.test(html(path)), 'Redirect must not be indexed: ' + path);

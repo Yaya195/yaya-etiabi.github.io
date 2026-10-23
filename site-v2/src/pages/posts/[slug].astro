@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import { withBase } from '../../lib/site';
+import { officialOrigin } from '../../lib/seo';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('blog');
+  return entries.filter(entry => entry.data.legacySlug).map(entry => ({
+    params: { slug: entry.data.legacySlug },
+    props: { entry },
+  }));
+}
+const { entry } = Astro.props;
+const destination = withBase('/blog/' + entry.id + '/');
+const canonical = officialOrigin + '/blog/' + entry.id + '/';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,follow" />
+    <meta http-equiv="refresh" content={'0; url=' + destination} />
+    <link rel="canonical" href={canonical} />
+    <title>Article moved | Yaya Etiabi</title>
+  </head>
+  <body>
+    <main>
+      <h1>Article moved</h1>
+      <p><a href={destination}>{entry.data.title}</a> is now available on the blog.</p>
+    </main>
+  </body>
+</html>

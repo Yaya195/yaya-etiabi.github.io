@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { withBase } from '../../lib/site';
+import { officialOrigin, websiteId } from '../../lib/seo';
+
+const entries = (await getCollection('blog')).sort((a, b) =>
+  b.data.publishedAt.getTime() - a.data.publishedAt.getTime() ||
+  a.data.order - b.data.order
+);
+const format = new Intl.DateTimeFormat('en', { dateStyle: 'long', timeZone: 'UTC' });
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': officialOrigin + '/blog/#webpage',
+  url: officialOrigin + '/blog/',
+  name: 'Blog | Yaya Etiabi',
+  description: 'Notes on machine learning, research methods, and the practice of science.',
+  inLanguage: 'en',
+  isPartOf: { '@id': websiteId },
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: entries.map((entry, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      url: officialOrigin + '/blog/' + entry.id + '/',
+      name: entry.data.title,
+    })),
+  },
+};
+---
+<BaseLayout title="Blog" description="Notes on machine learning, research methods, and the practice of science." structuredData={schema}>
+  <section class="page-hero">
+    <div class="container blog-index-header">
+      <div class="eyebrow">Notes &amp; perspectives</div>
+      <h1>Blog</h1>
+      <p class="lead">Writing about machine learning, research methods, and the practice of science, with an emphasis on clear questions, sound evidence, and useful explanations.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container blog-index">
+      <ul class="blog-list">
+        {entries.map(entry => (
+          <li class="blog-list-item">
+            <article>
+              <div class="blog-meta">
+                <span>{entry.data.category}</span>
+                <span class="dot" aria-hidden="true">·</span>
+                <time datetime={entry.data.publishedAt.toISOString().slice(0, 10)}>{format.format(entry.data.publishedAt)}</time>
+              </div>
+              <h2><a href={withBase('/blog/' + entry.id + '/')}>{entry.data.title}</a></h2>
+              <p>{entry.data.summary}</p>
+              <a class="card-link" href={withBase('/blog/' + entry.id + '/')}>Read article <span aria-hidden="true">↗</span></a>
+            </article>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

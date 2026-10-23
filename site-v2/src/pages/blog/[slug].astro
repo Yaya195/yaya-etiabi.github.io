@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import { withBase } from '../../lib/site';
+import { officialOrigin, websiteId, personId } from '../../lib/seo';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('blog');
+  return entries.map(entry => ({ params: { slug: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const date = entry.data.publishedAt.toISOString().slice(0, 10);
+const format = new Intl.DateTimeFormat('en', { dateStyle: 'long', timeZone: 'UTC' });
+const url = officialOrigin + '/blog/' + entry.id + '/';
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  '@id': url + '#article',
+  headline: entry.data.title,
+  description: entry.data.summary,
+  datePublished: date,
+  author: { '@type': 'Person', '@id': personId, name: 'Yaya Etiabi' },
+  isPartOf: { '@id': websiteId },
+  mainEntityOfPage: url,
+  inLanguage: 'en',
+  articleSection: entry.data.category,
+};
+---
+<BaseLayout title={entry.data.title} description={entry.data.summary} structuredData={schema} ogType="article" publishedAt={date}>
+  <section class="page-hero">
+    <div class="container blog-article">
+      <div class="blog-meta">
+        <span>{entry.data.category}</span>
+        <span class="dot" aria-hidden="true">·</span>
+        <time datetime={date}>{format.format(entry.data.publishedAt)}</time>
+      </div>
+      <h1>{entry.data.title}</h1>
+      <p class="lead">{entry.data.summary}</p>
+      <p class="small muted">By Yaya Etiabi</p>
+    </div>
+  </section>
+  <div class="container page-content blog-article">
+    <a class="blog-back" href={withBase('/blog/')}>← All blog posts</a>
+    <article class="prose"><Content /></article>
+    <div class="blog-article-footer">
+      <p>These notes express my own perspective on research and machine learning. For peer-reviewed work, see the <a href={withBase('/publications/')}>publications</a> page.</p>
+    </div>
+  </div>
+</BaseLayout>

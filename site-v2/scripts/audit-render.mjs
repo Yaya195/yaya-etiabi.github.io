@@ -5,10 +5,10 @@ const origin = process.env.AUDIT_ORIGIN || 'http://127.0.0.1:4321';
 const routes = [
   '/', '/research/', '/projects/', '/projects/locllm/',
   '/projects/radio-slam/', '/publications/', '/teaching-outreach/',
-  '/talks/', '/about/', '/contact/'
+  '/talks/', '/blog/', '/blog/reading-research-papers/', '/about/', '/contact/'
 ];
 const widths = [320, 375, 768, 1280];
-const screenshotRoutes = new Set(['/', '/projects/', '/teaching-outreach/', '/about/']);
+const screenshotRoutes = new Set(['/', '/projects/', '/teaching-outreach/', '/blog/', '/blog/reading-research-papers/', '/about/']);
 const errors = [];
 const summaries = [];
 mkdirSync('visual-audit', { recursive: true });
@@ -82,5 +82,5 @@ if (errors.length) {
   console.error('Visual/browser audit failed with ' + errors.length + ' issue(s):\n' + errors.join('\n'));
   process.exitCode = 1;
 } else {
-  console.log('Visual/browser audit succeeded: 10 routes × 3 viewport widths; no global overflow, broken images or missing landmarks.');
+  console.log('Visual/browser audit succeeded: ' + routes.length + ' routes × ' + widths.length + ' viewport widths; no global overflow, broken images or missing landmarks.');
 }
