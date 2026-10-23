@@ -40,6 +40,7 @@ The fork preview is tagged `noindex,nofollow`; the official organization-root bu
 
 - `src/content/projects/*.md` — technical case studies with validated status, tags and optional paper/code links
 - `src/content/publications/*.md` — bibliographic data with DOI links and legacy slugs
+- `src/content/blog/*.md` — dated essays and technical notes with category and optional old Jekyll post slug. New posts appear automatically on `/blog/` and `/blog/<slug>/`; retired `/posts/<legacySlug>/` URLs redirect only for revised, migrated articles.
 - `src/content.config.ts` — schemas checked at build time
 - `src/pages/` — page templates and static URL generation
 - `src/styles/global.css` — accessible global design system

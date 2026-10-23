@@ -177,3 +177,24 @@ p { margin: 0 0 16px; }
   .about-hero-grid { grid-template-columns: 1fr; gap: 22px; }
   .about-hero-portrait { max-width: 200px; justify-self: start; }
 }
+
+
+/* Blog: long-form notes without the academic-publication layout */
+.blog-index { max-width: 960px; }
+.blog-index-header { max-width: 760px; }
+.blog-list { display: grid; gap: 17px; padding: 0; margin: 0; list-style: none; }
+.blog-list-item { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 27px 30px; }
+.blog-list-item:hover { border-color: #b0cfc6; }
+.blog-list-item h2 { margin: 8px 0 10px; font-size: clamp(1.3rem, 2.2vw, 1.7rem); }
+.blog-list-item h2 a { text-decoration: none; color: var(--deep); }
+.blog-list-item h2 a:hover { color: var(--accent); }
+.blog-list-item p { max-width: 750px; color: var(--muted); margin: 0 0 10px; }
+.blog-meta { color: var(--subtle); font-size: .84rem; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.blog-meta .dot { opacity: .65; }
+.blog-article { max-width: 780px; margin-inline: auto; }
+.blog-article .prose { max-width: 740px; }
+.blog-article .prose h2 { scroll-margin-top: 32px; }
+.blog-article .prose p, .blog-article .prose li { line-height: 1.83; }
+.blog-back { display: inline-block; text-decoration: none; font-weight: 700; font-size: .89rem; margin-bottom: 30px; }
+.blog-article-footer { border-top: 1px solid var(--line); padding-top: 24px; margin-top: 48px; color: var(--muted); font-size: .9rem; }
+@media(max-width:720px){.blog-list-item{padding:22px 19px;}.blog-article{max-width:100%;}}

@@ -8,15 +8,18 @@ interface Props {
   description?: string;
   structuredData?: Record<string, unknown>;
   noindex?: boolean;
+  ogType?: 'website' | 'article';
+  publishedAt?: string;
 }
 
-const { title = site.heading, description = site.description, structuredData, noindex = false } = Astro.props;
+const { title = site.heading, description = site.description, structuredData, noindex = false, ogType = 'website', publishedAt } = Astro.props;
 const nav = [
   { label: 'Research', href: '/research/' },
   { label: 'Projects', href: '/projects/' },
   { label: 'Publications', href: '/publications/' },
   { label: 'Teaching & Outreach', href: '/teaching-outreach/' },
   { label: 'Talks', href: '/talks/' },
+  { label: 'Blog', href: '/blog/' },
   { label: 'About', href: '/about/' },
 ];
 const current = Astro.url.pathname;
@@ -51,7 +54,8 @@ const jsonLd = JSON.stringify(schema).replace(/</g, '\\u003c');
     <meta name="author" content="Yaya Etiabi" />
     <meta name="robots" content={preview ? 'noindex,nofollow' : noindex ? 'noindex,follow' : 'index,follow'} />
     <link rel="canonical" href={canonical} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
+    {publishedAt && <meta property="article:published_time" content={publishedAt} />}
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />

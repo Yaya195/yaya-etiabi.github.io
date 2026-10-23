@@ -31,4 +31,16 @@ const publications = defineCollection({
   }),
 });
 
-export const collections = { projects, publications };
+const blog = defineCollection({
+  loader: glob({ base: './src/content/blog', pattern: '**/*.md' }),
+  schema: z.object({
+    title: z.string(),
+    summary: z.string(),
+    publishedAt: z.coerce.date(),
+    category: z.enum(['Machine learning', 'Research practice']),
+    order: z.number().int().default(99),
+    legacySlug: z.string().regex(/^[a-z0-9-]+$/).optional(),
+  }),
+});
+
+export const collections = { projects, publications, blog };
