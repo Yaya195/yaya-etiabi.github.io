@@ -5,7 +5,7 @@ const origin = process.env.AUDIT_ORIGIN || 'http://127.0.0.1:4321';
 const routes = [
   '/', '/research/', '/projects/', '/projects/locllm/',
   '/projects/radio-slam/', '/publications/', '/teaching-outreach/',
-  '/talks/', '/blog/', '/blog/reading-research-papers/', '/about/', '/contact/'
+  '/talks/', '/blog/', '/blog/reading-research-papers/', '/blog/exploring-ml-research/', '/blog/first-research-paper/', '/about/', '/contact/'
 ];
 const widths = [320, 375, 768, 1280];
 const screenshotRoutes = new Set(['/', '/projects/', '/teaching-outreach/', '/blog/', '/blog/reading-research-papers/', '/about/']);
