@@ -1,7 +1,7 @@
 ---
 title: "Reading a Research Paper: From Relevance to Evidence"
 summary: "A practical distinction between screening a paper for relevance and reading it closely enough to evaluate its claims."
-publishedAt: 2026-10-23
+publishedAt: 2026-11-04
 category: "Research practice"
 order: 1
 legacySlug: "reading-research-papers"
