@@ -1,7 +1,7 @@
 ---
 title: "When Does Machine Learning Belong in a Research Project?"
 summary: "Before choosing a model, examine the research question, available data, evaluation design, and what an ML result could legitimately establish."
-publishedAt: 2026-10-23
+publishedAt: 2026-11-04
 category: "Machine learning"
 order: 2
 legacySlug: "exploring-ml-research"
