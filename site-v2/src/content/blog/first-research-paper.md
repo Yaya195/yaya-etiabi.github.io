@@ -1,7 +1,7 @@
 ---
 title: "Writing a Research Paper from the Evidence Backwards"
 summary: "An approach to drafting a first paper that begins with the research claim, the experimental evidence, and the limits of what the results support."
-publishedAt: 2026-10-23
+publishedAt: 2026-11-04
 category: "Research practice"
 order: 3
 legacySlug: "first-research-paper"
