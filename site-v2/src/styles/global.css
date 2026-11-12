@@ -201,3 +201,19 @@ p { margin: 0 0 16px; }
 .project-card-actions .project-paper-link:hover {
   color: var(--accent);
 }
+
+
+/* Keep the two calls to action opposite each other on narrow screens.
+   Long labels may wrap within their column, never onto a new action row. */
+@media (max-width: 600px) {
+  .project-card-actions {
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .project-card-actions .card-link {
+    min-width: 0;
+    font-size: .82rem;
+    line-height: 1.45;
+  }
+}
