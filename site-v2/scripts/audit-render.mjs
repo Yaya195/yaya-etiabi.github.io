@@ -5,10 +5,10 @@ const origin = process.env.AUDIT_ORIGIN || 'http://127.0.0.1:4321';
 const routes = [
   '/', '/research/', '/projects/', '/projects/locllm/',
   '/projects/radio-slam/', '/publications/', '/teaching-outreach/',
-  '/talks/', '/about/', '/contact/'
+  '/talks/', '/about/', '/cv/', '/contact/'
 ];
 const widths = [320, 375, 768, 1280];
-const screenshotRoutes = new Set(['/', '/projects/', '/teaching-outreach/', '/about/']);
+const screenshotRoutes = new Set(['/', '/projects/', '/teaching-outreach/', '/about/', '/cv/']);
 const errors = [];
 const summaries = [];
 mkdirSync('visual-audit', { recursive: true });
