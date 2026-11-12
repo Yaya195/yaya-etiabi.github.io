@@ -7,6 +7,7 @@ import { withBase, site } from '../lib/site';
 import { Image } from 'astro:assets';
 import portrait from '../assets/yaya-portrait-cutout.webp';
 import { homeStructuredData } from '../lib/seo';
+import { researchExperience } from '../data/experience';
 
 const projects = (await getCollection('projects')).sort((a,b) => a.data.sortOrder - b.data.sortOrder);
 const featured = projects.filter(p=>p.data.featured).slice(0,3);
@@ -63,6 +64,25 @@ const areas = [
     <div class="container">
       <div class="section-head"><div><div class="eyebrow section-label">Research outputs</div><h2>Publications</h2><p>Peer-reviewed work in machine learning, distributed systems and wireless localization.</p></div><a class="link-arrow" href={withBase('/publications/')}>Full publication list ↗</a></div>
       <ul class="pub-list">{publications.map(p=><PublicationItem {...p.data}/>)}</ul>
+    </div>
+  </section>
+
+  <section class="section experience-home-section">
+    <div class="container">
+      <div class="section-head">
+        <div><div class="eyebrow section-label">Academic journey</div><h2>Research experience</h2></div>
+        <a class="link-arrow" href={withBase('/cv/')}>View academic CV ↗</a>
+      </div>
+      <div class="grid-3 experience-home-grid">
+        {researchExperience.map(item => (
+          <article class="card experience-home-card">
+            <div class="timeline-date">{item.period}</div>
+            <h3>{item.role}</h3>
+            <p class="experience-home-institution">{item.institution}</p>
+            <p class="experience-home-location">{item.location}</p>
+          </article>
+        ))}
+      </div>
     </div>
   </section>
 
