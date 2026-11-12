@@ -1,20 +1,77 @@
 ---
+import BaseLayout from '../../layouts/BaseLayout.astro';
 import { withBase } from '../../lib/site';
-const destination = withBase('/about/');
+import { researchExperience, earlierExperience, education } from '../../data/experience';
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex,follow" />
-    <meta http-equiv="refresh" content={'0; url=' + destination} />
-    <link rel="canonical" href={destination} />
-    <title>About | Yaya Etiabi</title>
-  </head>
-  <body>
-    <main>
-      <p>My academic background is now presented on the <a href={destination}>About page</a>.</p>
-    </main>
-  </body>
-</html>
+<BaseLayout
+  title="Curriculum Vitae"
+  description="Academic research experience, education, and earlier engineering experience of Yaya Etiabi."
+>
+  <section class="page-hero">
+    <div class="container">
+      <div class="eyebrow">Academic background</div>
+      <h1>Curriculum Vitae</h1>
+      <p class="lead">
+        Research experience, education, and earlier engineering roles. Selected technical
+        contributions and papers are documented in the Projects and Publications sections.
+      </p>
+      <nav class="cv-jump-links" aria-label="Sections on this page">
+        <a href="#research-experience">Research experience</a>
+        <a href="#education">Education</a>
+        <a href="#earlier-experience">Earlier experience</a>
+      </nav>
+    </div>
+  </section>
+  <div class="container page-content cv-page">
+    <section id="research-experience" class="cv-section">
+      <h2>Research experience</h2>
+      <div class="timeline cv-timeline">
+        {researchExperience.map(item => (
+          <article class="timeline-item">
+            <div class="timeline-date">{item.period}</div>
+            <h3>{item.role}</h3>
+            <div class="cv-institution">{item.institution}</div>
+            <p class="cv-location">{item.department} · {item.location}</p>
+            <ul class="cv-highlights">
+              {item.highlights.map(highlight => <li>{highlight}</li>)}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </section>
+    <section id="education" class="cv-section">
+      <h2>Education</h2>
+      <div class="timeline cv-timeline">
+        {education.map(item => (
+          <article class="timeline-item">
+            <div class="timeline-date">{item.period}</div>
+            <h3>{item.degree}</h3>
+            <div class="cv-institution">{item.institution}</div>
+            <p class="cv-location">{item.detail} · {item.location}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+    <section id="earlier-experience" class="cv-section">
+      <h2>Earlier engineering experience</h2>
+      <div class="timeline cv-timeline">
+        {earlierExperience.map(item => (
+          <article class="timeline-item">
+            <div class="timeline-date">{item.period}</div>
+            <h3>{item.role}</h3>
+            <div class="cv-institution">{item.institution}</div>
+            <p class="cv-location">{item.location}{item.details ? ' · ' + item.details : ''}</p>
+            <p class="cv-summary">{item.summary}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+    <section class="cv-related" aria-label="Additional academic activities">
+      <h2>Research outputs and academic activities</h2>
+      <p>Explore my <a href={withBase('/projects/')}>research projects</a>,
+        <a href={withBase('/publications/')}>publications</a>, and
+        <a href={withBase('/teaching-outreach/')}>teaching, mentoring, and academic service</a>.
+      </p>
+    </section>
+  </div>
+</BaseLayout>
