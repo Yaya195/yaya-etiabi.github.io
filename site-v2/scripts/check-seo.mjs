@@ -77,11 +77,17 @@ const expectedProjectOutputs = [
   ['federated-distillation', 'https://doi.org/10.1109/JSEN.2024.3357798', 'View publication'],
 ];
 const projectPage = html('projects/index.html');
+const basePath = process.env.BASE_PATH || '/';
+const basePrefix = basePath.endsWith('/') ? basePath.slice(0, -1) : basePath;
 for (const [slug, paperUrl, label] of expectedProjectOutputs) {
-  const projectLink = (process.env.BASE_PATH || '/').replace(/\\/$/, '') + '/projects/' + slug + '/';
-  const card = [...projectPage.matchAll(/<article class="card project-card">([\\s\\S]*?)<\\/article>/g)]
-    .map(match => match[1])
-    .find(fragment => fragment.includes('href="' + projectLink + '"'));
+  const projectLink = basePrefix + '/projects/' + slug + '/';
+  const marker = 'href="' + projectLink + '"';
+  const linkPosition = projectPage.indexOf(marker);
+  const cardStart = projectPage.lastIndexOf('<article class="card project-card">', linkPosition);
+  const cardEnd = projectPage.indexOf('</article>', linkPosition);
+  const card = linkPosition !== -1 && cardStart !== -1 && cardEnd !== -1
+    ? projectPage.slice(cardStart, cardEnd)
+    : '';
   check(Boolean(card), 'Missing project card for ' + slug);
   if (card) {
     check(card.includes('href="' + paperUrl + '"'), 'Missing paper URL on ' + slug);
