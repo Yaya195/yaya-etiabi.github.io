@@ -68,8 +68,8 @@ export function publicationsStructuredData(publications) {
     mainEntity: {
       '@type': 'ItemList',
       itemListElement: publications.map((publication, index) => {
-        const { title, authors, year, doi, kind } = publication.data;
-        const url = doi ? 'https://doi.org/' + doi : undefined;
+        const { title, authors, year, doi, url: publicUrl, kind } = publication.data;
+        const url = doi ? 'https://doi.org/' + doi : publicUrl;
         return {
           '@type': 'ListItem',
           position: index + 1,
@@ -78,7 +78,8 @@ export function publicationsStructuredData(publications) {
             name: title,
             author: authors.map(name => ({ '@type': 'Person', name })),
             datePublished: String(year),
-            ...(url ? { url, identifier: { '@type': 'PropertyValue', propertyID: 'DOI', value: doi } } : {}),
+            ...(url ? { url } : {}),
+            ...(doi ? { identifier: { '@type': 'PropertyValue', propertyID: 'DOI', value: doi } } : {}),
             ...(kind === 'Preprint' ? { version: 'Preprint' } : {}),
           },
         };
