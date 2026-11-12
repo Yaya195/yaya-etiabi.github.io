@@ -11,7 +11,7 @@ const check = (condition, message) => { if (!condition) failures.push(message); 
 const html = file => readFileSync(join(root, file), 'utf8');
 const routes = [
   '/', '/research/', '/projects/', '/publications/',
-  '/teaching-outreach/', '/talks/', '/about/', '/contact/',
+  '/teaching-outreach/', '/talks/', '/about/', '/cv/', '/contact/',
 ];
 const projects = readdirSync(join(root, 'projects'), { withFileTypes: true })
   .filter(entry => entry.isDirectory())
@@ -29,7 +29,7 @@ if (existsSync(join(root, 'sitemap.xml'))) {
   check(published.length === expected.length, 'Sitemap URL count does not match the main pages');
   check(new Set(published).size === published.length, 'Duplicate sitemap URLs');
   for (const url of expected) check(published.includes(url), 'Sitemap omits ' + url);
-  check(!/\/(?:cv|resume|portfolio|publication)\//.test(xml), 'Sitemap includes redirects');
+  check(!/\/(?:resume|portfolio|publication)\//.test(xml), 'Sitemap includes redirects');
 }
 if (existsSync(join(root, 'robots.txt'))) {
   check(html('robots.txt').includes('Sitemap: ' + official + '/sitemap.xml'), 'Wrong robots.txt sitemap');
@@ -49,6 +49,9 @@ for (const route of urls) {
     try {
       const schema = JSON.parse(script);
       check(schema['@context'] === 'https://schema.org', 'Wrong schema context ' + route);
+      if (route === '/cv/') {
+        check(/Research experience/.test(markup) && /Education/.test(markup), 'CV is missing academic experience or education');
+      }
       if (route === '/about/') {
         check(schema['@type'] === 'ProfilePage', 'Missing ProfilePage on About');
         check(schema.mainEntity?.name === 'Yaya Etiabi', 'Incorrect Person identity');
@@ -105,7 +108,7 @@ for (const url of ['https://arxiv.org/abs/2611.01521', 'https://arxiv.org/abs/26
 if (existsSync(join(root, '404.html'))) {
   check(/noindex/.test(html('404.html')), '404 must not be indexable');
 }
-for (const path of ['cv/index.html', 'resume/index.html', 'portfolio/index.html']) {
+for (const path of ['resume/index.html', 'portfolio/index.html']) {
   check(/noindex/.test(html(path)), 'Redirect must not be indexed: ' + path);
 }
 if (failures.length) {
