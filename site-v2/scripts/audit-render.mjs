@@ -54,6 +54,17 @@ try {
           selectedNav,
           clippedNavLinks,
           hasSkipTarget: Boolean(document.getElementById('content')),
+          projectActionIssues: [...document.querySelectorAll('.project-card-actions')].flatMap((actions, index) => {
+            const links = [...actions.querySelectorAll('a')];
+            if (links.length !== 2) return [];
+            const [first, second] = links.map(link => link.getBoundingClientRect());
+            const sameRow = Math.abs(first.top - second.top) <= 2;
+            const withinViewport = first.left >= -1 && second.right <= window.innerWidth + 1;
+            const nonOverlapping = sameRow
+              ? first.right <= second.left + 1
+              : first.bottom <= second.top + 1;
+            return withinViewport && nonOverlapping ? [] : ['project card ' + (index + 1)];
+          }),
         };
       });
       const label = width + 'px ' + route;
@@ -62,6 +73,7 @@ try {
       if (result.h1Count !== 1 || result.missingMain || !result.hasSkipTarget) errors.push(label + ': document landmarks');
       if (result.brokenImages.length || result.missingAlt.length) errors.push(label + ': images ' + JSON.stringify({broken:result.brokenImages,missingAlt:result.missingAlt}));
       if (result.clippedNavLinks.length) errors.push(label + ': hidden navigation items ' + result.clippedNavLinks.join(', '));
+      if (result.projectActionIssues.length) errors.push(label + ': overlapping or clipped project actions ' + result.projectActionIssues.join(', '));
       if (!result.canonical?.startsWith('https://yaya-etiabi.github.io/')) errors.push(label + ': canonical ' + result.canonical);
       if (route !== '/' && route.split('/').filter(Boolean).length === 1 && !result.selectedNav.length && route !== '/contact/') errors.push(label + ': nav not marked current');
       if (runtimeErrors.length) errors.push(label + ': JS errors ' + JSON.stringify(runtimeErrors.splice(0)));
@@ -82,5 +94,5 @@ if (errors.length) {
   console.error('Visual/browser audit failed with ' + errors.length + ' issue(s):\n' + errors.join('\n'));
   process.exitCode = 1;
 } else {
-  console.log('Visual/browser audit succeeded: 10 routes × 3 viewport widths; no global overflow, broken images or missing landmarks.');
+  console.log('Visual/browser audit succeeded: ' + routes.length + ' routes × ' + widths.length + ' viewport widths; no global overflow, broken images or missing landmarks.');
 }
