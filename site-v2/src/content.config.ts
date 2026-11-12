@@ -12,6 +12,7 @@ const projects = defineCollection({
     featured: z.boolean().default(false),
     sortOrder: z.number().default(99),
     paperUrl: z.string().url().optional(),
+    paperType: z.enum(['Publication', 'Preprint']).optional(),
     codeUrl: z.string().url().optional(),
   }),
 });
@@ -25,6 +26,7 @@ const publications = defineCollection({
     venue: z.string(),
     kind: z.enum(['Journal', 'Conference', 'Preprint']),
     doi: z.string().optional(),
+    url: z.string().url().optional(),
     featured: z.boolean().default(false),
     legacySlug: z.string().optional(),
     project: z.string().optional(),
