@@ -5,6 +5,7 @@ on:
     branches:
       - refactor/research-website-v2
       - feat/preprints-project-links-2026
+      - feat/experience-cv-page
     paths:
       - '.github/workflows/site-v2-browser-audit.yml'
       - 'site-v2/**'
