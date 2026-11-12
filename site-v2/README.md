@@ -55,7 +55,7 @@ The CI workflow at `../.github/workflows/site-v2-ci.yml` deliberately **does not
 
 - Publications have been reconciled against the 11 BibTeX entries supplied for this release, including one clearly marked preprint.
 - Research-in-progress pages intentionally have no invented code links or accepted-paper claims.
-- No PDF CV is published. Historical CV and résumé routes lead to About.
+- The `/cv/` page provides a structured HTML academic CV. No downloadable PDF CV is published. The historical `/resume/` route redirects to `/cv/`.
 - A profile portrait and selected historical photos are included; Contact deliberately directs visitors to professional profiles.
 - A dependency lockfile still needs to be generated from a real npm ci and committed prior to production release.
 
