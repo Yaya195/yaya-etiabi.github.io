@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - refactor/research-website-v2
+      - feat/astro-blog-v1
     paths:
       - 'site-v2/**'
       - '.github/workflows/site-v2-ci.yml'
