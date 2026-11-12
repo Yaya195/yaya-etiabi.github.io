@@ -8,8 +8,10 @@ interface Props {
   status: string;
   period: string;
   tags: string[];
+  paperUrl?: string;
+  paperType?: 'Publication' | 'Preprint';
 }
-const { slug, title, summary, status, period, tags } = Astro.props;
+const { slug, title, summary, status, period, tags, paperUrl, paperType = 'Publication' } = Astro.props;
 ---
 <article class="card project-card">
   <div class="project-card-body">
@@ -17,6 +19,9 @@ const { slug, title, summary, status, period, tags } = Astro.props;
     <h3>{title}</h3>
     <p>{summary}</p>
     <div class="tag-list">{tags.slice(0,3).map((t)=><span class="tag">{t}</span>)}</div>
-    <a class="card-link" href={withBase('/projects/' + slug + '/')}>Explore the project <span aria-hidden="true">↗</span></a>
+    <div class="project-card-actions">
+      <a class="card-link" href={withBase('/projects/' + slug + '/')}>Explore the project <span aria-hidden="true">↗</span></a>
+      {paperUrl && <a class="card-link project-paper-link" href={paperUrl} target="_blank" rel="noopener noreferrer">View {paperType === 'Preprint' ? 'preprint' : 'publication'} <span aria-hidden="true">↗</span></a>}
+    </div>
   </div>
 </article>
