@@ -4,6 +4,7 @@ import { withBase, site } from '../../lib/site';
 import { Image } from 'astro:assets';
 import portrait from '../../assets/yaya-portrait-cutout.webp';
 import { profileStructuredData } from '../../lib/seo';
+import { researchExperience } from '../../data/experience';
 ---
 <BaseLayout
   title="About"
@@ -56,6 +57,23 @@ import { profileStructuredData } from '../../lib/seo';
           localization. These directions build on my earlier research while addressing
           different questions at the intersection of AI and wireless systems.
         </p>
+
+
+        <section id="research-experience" aria-labelledby="experience-title">
+          <h2 id="experience-title">Research experience</h2>
+          <div class="timeline cv-timeline">
+            {researchExperience.map(item => (
+              <article class="timeline-item">
+                <div class="timeline-date">{item.period}</div>
+                <h3>{item.role}</h3>
+                <div class="cv-institution">{item.institution}</div>
+                <p class="cv-location">{item.location}</p>
+                <p class="cv-summary">{item.highlights[0]}</p>
+              </article>
+            ))}
+          </div>
+          <p><a href={withBase('/cv/')}>View full academic CV ↗</a></p>
+        </section>
 
         <h2>Research approach</h2>
         <p>
@@ -120,6 +138,7 @@ import { profileStructuredData } from '../../lib/seo';
         <p class="small"><a href={withBase('/publications/')}>Publications ↗</a></p>
         <p class="small"><a href={withBase('/talks/')}>Talks &amp; Presentations ↗</a></p>
         <p class="small"><a href={withBase('/teaching-outreach/')}>Teaching &amp; Outreach ↗</a></p>
+        <p class="small"><a href={withBase('/cv/')}>Academic CV ↗</a></p>
         <div class="sidebar-divider" aria-hidden="true"></div>
         <h3>Academic profiles</h3>
         <p class="small"><a href={site.scholar} target="_blank" rel="noopener noreferrer">Google Scholar ↗</a></p>
