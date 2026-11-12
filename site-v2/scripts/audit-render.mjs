@@ -63,7 +63,7 @@ try {
             const nonOverlapping = sameRow
               ? first.right <= second.left + 1
               : first.bottom <= second.top + 1;
-            return withinViewport && nonOverlapping ? [] : ['project card ' + (index + 1)];
+            return sameRow && withinViewport && nonOverlapping ? [] : ['project card ' + (index + 1)];
           }),
         };
       });
