@@ -8,16 +8,18 @@ interface Props {
   venue: string;
   kind: string;
   doi?: string;
+  url?: string;
   project?: string;
 }
-const {title,authors,year,venue,kind,doi,project} = Astro.props;
+const {title,authors,year,venue,kind,doi,url,project} = Astro.props;
+const paperLink = doi ? 'https://doi.org/' + doi : url;
 ---
 <li>
   <div class="pub-title">{title}</div>
   <div class="pub-meta">{authors.join(', ')}</div>
   <div class="pub-meta"><em>{venue}</em> · {year} · {kind}</div>
   <div class="pub-links">
-    {doi && <a href={'https://doi.org/' + doi} target="_blank" rel="noopener noreferrer">{kind === 'Preprint' ? 'Preprint ↗' : 'DOI ↗'}</a>}
+    {paperLink && <a href={paperLink} target="_blank" rel="noopener noreferrer">{kind === 'Preprint' ? 'Preprint ↗' : 'DOI ↗'}</a>}
     {project && <a href={withBase('/projects/' + project + '/')}>Research project →</a>}
   </div>
 </li>
