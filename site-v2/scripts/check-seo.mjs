@@ -57,8 +57,8 @@ for (const route of urls) {
       if (route === '/publications/') {
         check(schema['@type'] === 'CollectionPage', 'Missing publication CollectionPage');
         const items = schema.mainEntity?.itemListElement || [];
-        check(items.length === 11, 'Expected 11 publication records in structured data');
-        check(items.filter(x => x.item?.version === 'Preprint').length === 1, 'Preprint needs explicit distinction');
+        check(items.length === 13, 'Expected 13 publication records in structured data');
+        check(items.filter(x => x.item?.version === 'Preprint').length === 3, 'All 3 preprints need explicit distinction');
       }
       if (route === '/') {
         check(schema['@graph']?.some(x => x['@type'] === 'WebSite'), 'Missing WebSite');
