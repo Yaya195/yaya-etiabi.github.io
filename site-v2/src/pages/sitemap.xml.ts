@@ -6,7 +6,7 @@ export const GET: APIRoute = async () => {
   const projects = await getCollection('projects');
   const paths = [
     '/', '/research/', '/projects/', '/publications/',
-    '/teaching-outreach/', '/talks/', '/about/', '/contact/',
+    '/teaching-outreach/', '/talks/', '/about/', '/cv/', '/contact/',
     ...projects.map(project => '/projects/' + project.id + '/'),
   ];
   const xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
