@@ -4,9 +4,10 @@ on:
   push:
     branches:
       - refactor/research-website-v2
+      - feat/astro-blog-v1
     paths:
       - '.github/workflows/site-v2-browser-audit.yml'
-      - 'site-v2/scripts/audit-render.mjs'
+      - 'site-v2/**'
   workflow_dispatch:
 
 permissions:
