@@ -6,5 +6,5 @@ const projects = (await getCollection('projects')).sort((a,b) => a.data.sortOrde
 ---
 <BaseLayout title="Projects" description="Research in machine learning for wireless systems, with studies in ISCC, radio localization and open-source resources.">
   <section class="page-hero"><div class="container"><div class="eyebrow">Research portfolio</div><h1>Research projects</h1><p class="lead">Selected research studies and tools, with the problem addressed, the methods investigated and available results or resources.</p></div></section>
-  <section class="section"><div class="container"><div class="grid-3">{projects.map((p,index)=><ProjectCard slug={p.id} title={p.data.title} summary={p.data.summary} status={p.data.status} period={p.data.period} tags={p.data.tags} index={index}/>)}</div></div></section>
+  <section class="section"><div class="container"><div class="grid-3">{projects.map((p,index)=><ProjectCard slug={p.id} title={p.data.title} summary={p.data.summary} status={p.data.status} period={p.data.period} tags={p.data.tags} paperUrl={p.data.paperUrl} paperType={p.data.paperType} index={index}/>)}</div></div></section>
 </BaseLayout>

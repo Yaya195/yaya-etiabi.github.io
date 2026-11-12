@@ -57,8 +57,8 @@ for (const route of urls) {
       if (route === '/publications/') {
         check(schema['@type'] === 'CollectionPage', 'Missing publication CollectionPage');
         const items = schema.mainEntity?.itemListElement || [];
-        check(items.length === 11, 'Expected 11 publication records in structured data');
-        check(items.filter(x => x.item?.version === 'Preprint').length === 1, 'Preprint needs explicit distinction');
+        check(items.length === 13, 'Expected 13 publication records in structured data');
+        check(items.filter(x => x.item?.version === 'Preprint').length === 3, 'All 3 preprints need explicit distinction');
       }
       if (route === '/') {
         check(schema['@graph']?.some(x => x['@type'] === 'WebSite'), 'Missing WebSite');
@@ -69,6 +69,39 @@ for (const route of urls) {
     }
   }
 }
+// Verify that the generated project cards expose the correct associated research output.
+const expectedProjectOutputs = [
+  ['ai-iscc-survey', 'https://arxiv.org/abs/2611.01521', 'View preprint'],
+  ['factorized-transformer', 'https://arxiv.org/abs/2611.01491', 'View preprint'],
+  ['femloc', 'https://doi.org/10.1109/JIOT.2024.3440175', 'View publication'],
+  ['federated-distillation', 'https://doi.org/10.1109/JSEN.2024.3357798', 'View publication'],
+];
+const projectPage = html('projects/index.html');
+const basePath = process.env.BASE_PATH || '/';
+const basePrefix = basePath.endsWith('/') ? basePath.slice(0, -1) : basePath;
+for (const [slug, paperUrl, label] of expectedProjectOutputs) {
+  const projectLink = basePrefix + '/projects/' + slug + '/';
+  const marker = 'href="' + projectLink + '"';
+  const linkPosition = projectPage.indexOf(marker);
+  const cardStart = projectPage.lastIndexOf('<article class="card project-card">', linkPosition);
+  const cardEnd = projectPage.indexOf('</article>', linkPosition);
+  const card = linkPosition !== -1 && cardStart !== -1 && cardEnd !== -1
+    ? projectPage.slice(cardStart, cardEnd)
+    : '';
+  check(Boolean(card), 'Missing project card for ' + slug);
+  if (card) {
+    check(card.includes('href="' + paperUrl + '"'), 'Missing paper URL on ' + slug);
+    check(card.includes(label), 'Incorrect paper type label on ' + slug);
+    check(card.includes('class="project-card-actions"'), 'Missing two-action layout on ' + slug);
+  }
+  const details = html('projects/' + slug + '/index.html');
+  check(details.includes('href="' + paperUrl + '"'), 'Project details omit research output for ' + slug);
+}
+const homepage = html('index.html');
+for (const url of ['https://arxiv.org/abs/2611.01521', 'https://arxiv.org/abs/2611.01491']) {
+  check(homepage.includes('href="' + url + '"'), 'Featured homepage card omits ' + url);
+}
+
 if (existsSync(join(root, '404.html'))) {
   check(/noindex/.test(html('404.html')), '404 must not be indexable');
 }

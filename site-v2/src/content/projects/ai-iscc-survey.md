@@ -6,6 +6,8 @@ period: "2026"
 tags: ["ISCC", "AI–ISCC co-design", "Survey"]
 featured: true
 sortOrder: 1
+paperUrl: "https://arxiv.org/abs/2611.01521"
+paperType: "Preprint"
 ---
 
 ## Research focus
@@ -24,4 +26,4 @@ The reviewed work is organized by the role of AI, the variables jointly designed
 
 ## Manuscript
 
-The manuscript is **under review**.
+The manuscript is **under review**. The [public preprint](https://arxiv.org/abs/2611.01521) is available on arXiv.

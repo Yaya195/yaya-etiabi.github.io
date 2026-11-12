@@ -6,6 +6,8 @@ period: "2026"
 tags: ["Transformers", "MIMO-OFDM", "Multipath estimation"]
 featured: true
 sortOrder: 2
+paperUrl: "https://arxiv.org/abs/2611.01491"
+paperType: "Preprint"
 ---
 
 ## Problem
@@ -22,4 +24,4 @@ Experiments on ray-tracing-based wireless channels compare path detection, param
 
 ## Manuscript
 
-The manuscript is **under review**.
+The manuscript is **under review**. The [public preprint](https://arxiv.org/abs/2611.01491) is available on arXiv.

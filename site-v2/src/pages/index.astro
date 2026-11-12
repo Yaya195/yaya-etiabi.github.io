@@ -55,7 +55,7 @@ const areas = [
   <section class="section soft-section">
     <div class="container">
       <div class="section-head"><div><div class="eyebrow section-label">Selected work</div><h2>Research projects</h2></div><a class="link-arrow" href={withBase('/projects/')}>All projects ↗</a></div>
-      <div class="grid-3">{featured.map((project,index)=><ProjectCard slug={project.id} title={project.data.title} summary={project.data.summary} status={project.data.status} period={project.data.period} tags={project.data.tags} index={index}/>)}</div>
+      <div class="grid-3">{featured.map((project,index)=><ProjectCard slug={project.id} title={project.data.title} summary={project.data.summary} status={project.data.status} period={project.data.period} tags={project.data.tags} paperUrl={project.data.paperUrl} paperType={project.data.paperType} index={index}/>)}</div>
     </div>
   </section>
 

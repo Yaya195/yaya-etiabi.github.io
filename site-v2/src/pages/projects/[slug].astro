@@ -22,7 +22,7 @@ const { Content } = await render(entry);
           <dt>Status</dt><dd>{entry.data.status}</dd>
           <dt>Period</dt><dd>{entry.data.period}</dd>
           <dt>Focus</dt><dd>{entry.data.tags.join(' · ')}</dd>
-          {entry.data.paperUrl && <><dt>Publication</dt><dd><a href={entry.data.paperUrl} target="_blank" rel="noopener noreferrer">View paper ↗</a></dd></>}
+          {entry.data.paperUrl && <><dt>{entry.data.paperType === 'Preprint' ? 'Preprint' : 'Publication'}</dt><dd><a href={entry.data.paperUrl} target="_blank" rel="noopener noreferrer">View {entry.data.paperType === 'Preprint' ? 'preprint' : 'publication'} ↗</a></dd></>}
           {entry.data.codeUrl && <><dt>Code / resources</dt><dd><a href={entry.data.codeUrl} target="_blank" rel="noopener noreferrer">View repository ↗</a></dd></>}
         </dl>
       </aside>
