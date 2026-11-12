@@ -51,6 +51,8 @@ for (const route of urls) {
       check(schema['@context'] === 'https://schema.org', 'Wrong schema context ' + route);
       if (route === '/cv/') {
         check(/Research experience/.test(markup) && /Education/.test(markup), 'CV is missing academic experience or education');
+        check(/UQAM/.test(markup) && /ISEP/.test(markup) && /UM6P/.test(markup), 'CV is missing verified research institutions');
+        check(/Earlier engineering experience/.test(markup), 'CV is missing earlier technical roles');
       }
       if (route === '/about/') {
         check(schema['@type'] === 'ProfilePage', 'Missing ProfilePage on About');
